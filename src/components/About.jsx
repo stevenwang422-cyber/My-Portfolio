@@ -91,8 +91,8 @@ function VideoBg({ src, range }) {
   }, [])
   return (
     <>
-      <video ref={aRef} className="pf-video" src={src} muted playsInline preload="auto" aria-hidden="true" />
-      <video ref={bRef} className="pf-video" src={src} muted playsInline preload="auto" aria-hidden="true" />
+      <video ref={aRef} className="pf-video" src={src} muted playsInline preload="metadata" aria-hidden="true" />
+      <video ref={bRef} className="pf-video" src={src} muted playsInline preload="metadata" aria-hidden="true" />
     </>
   )
 }

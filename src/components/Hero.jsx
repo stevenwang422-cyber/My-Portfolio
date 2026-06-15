@@ -220,10 +220,18 @@ export default function Hero({ started }) {
   // ── 3D three-body scene: planets, glow, trails, starfield ──
   useEffect(() => {
     const container = mountRef.current
-    const renderer = new THREE.WebGLRenderer({ antialias: true })
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    // mobile / in-app webviews (e.g. WeChat) choke on full-retina fill-rate +
+    // the per-pixel nebula shader + a shadow pass — so trim those on small screens
+    const isMobile =
+      window.matchMedia('(max-width: 760px)').matches ||
+      /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+    const renderer = new THREE.WebGLRenderer({
+      antialias: !isMobile,
+      powerPreference: 'high-performance',
+    })
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.3 : 2))
     renderer.setSize(container.clientWidth, container.clientHeight)
-    renderer.shadowMap.enabled = true
+    renderer.shadowMap.enabled = !isMobile
     renderer.shadowMap.type = THREE.PCFSoftShadowMap
     renderer.toneMapping = THREE.ACESFilmicToneMapping
     renderer.toneMappingExposure = 1.05
@@ -350,9 +358,9 @@ export default function Hero({ started }) {
     }
 
     // 4,000 stars across three depth layers (far / mid-band / near)
-    const farStars = makeStars(2000, { aSize: 0.05, twFrac: 0.18, placer: shellPlacer(18, 16) })
-    const bandStars = makeStars(1300, { aSize: 0.06, twFrac: 0.26, placer: bandPlacer })
-    const nearStars = makeStars(700, { aSize: 0.1, twFrac: 0.42, placer: shellPlacer(7, 7) })
+    const farStars = makeStars(isMobile ? 900 : 2000, { aSize: 0.05, twFrac: 0.18, placer: shellPlacer(18, 16) })
+    const bandStars = makeStars(isMobile ? 600 : 1300, { aSize: 0.06, twFrac: 0.26, placer: bandPlacer })
+    const nearStars = makeStars(isMobile ? 320 : 700, { aSize: 0.1, twFrac: 0.42, placer: shellPlacer(7, 7) })
 
     // simplex-noise nebula dome behind everything
     const sky = makeSkyDome()

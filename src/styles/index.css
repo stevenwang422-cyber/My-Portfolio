@@ -2374,6 +2374,69 @@ body::after {
   }
 }
 
+/* ───────────────── phones (≤ 560px) ───────────────── */
+@media (max-width: 560px) {
+  /* big display type must not overflow the narrow viewport */
+  .hero-base {
+    font-size: clamp(1.5rem, 7.6vw, 2.4rem);
+  }
+  .hero-eyebrow {
+    letter-spacing: 0.2em;
+  }
+
+  /* the Lu Xun couplet wraps on a phone instead of forcing two long rows */
+  .vol-line {
+    white-space: normal;
+  }
+  .vol-quote {
+    font-size: clamp(1.3rem, 6.2vw, 1.9rem);
+    line-height: 1.7;
+  }
+
+  /* work-slider controls stack cleanly; progress bar drops to its own row */
+  .work-controls {
+    flex-wrap: wrap;
+    gap: 0.7rem 1rem;
+  }
+  .work-progress {
+    order: 3;
+    flex-basis: 100%;
+    max-width: none;
+  }
+  .work-foot {
+    gap: 0.9rem;
+  }
+
+  /* tighten inner padding of the video-backed profile zones + modal */
+  .pf-intro,
+  .pf-caps {
+    padding: 1.2rem;
+  }
+  .mw-panel {
+    padding: 1.3rem;
+  }
+
+  /* footer items wrap with comfortable spacing */
+  .contact-foot {
+    gap: 0.8rem 1.2rem;
+  }
+
+  /* oversized award/system metrics breathe a little less aggressively */
+  .vol-systems {
+    gap: 0.7rem;
+  }
+}
+
+/* very small phones (≤ 380px) — final safety net */
+@media (max-width: 380px) {
+  .hero-base {
+    font-size: 1.5rem;
+  }
+  .pf-name {
+    font-size: clamp(2.6rem, 15vw, 3.4rem);
+  }
+}
+
 /* ───────────────────────── reduced motion ───────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
